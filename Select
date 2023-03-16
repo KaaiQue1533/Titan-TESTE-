@@ -1,0 +1,86 @@
+Inserir um registro na tabela de produtos:
+insert into produtos (cod_prod, loj_prod, desc_prod, dt_inclu_prod, preco_prod)
+values (170, 2, 'LEITE CONDESADO MOCOCA', '2010-12-30', 45.40);
+
+
+Alterar o preço do produto com cod_prod = 170 e loj_prod = 2:
+update  produtos
+set preco_prod = 95.40
+where cod_prod = 170 AND loj_prod = 2;
+
+
+Selecionar todos os registros das lojas 1 e 2:
+select *
+from produtos
+where loj_prod IN (1, 2);
+
+
+Selecionar a maior e a menor data de inclusão do produto:
+select max (dt_inclu_prod) AS data_maxima, MIN(dt_inclu_prod) AS data_minima
+from produtos;
+
+Selecionar a maior e a menor data de inclusão do produto:
+select max (dt_inclu_prod) AS data_maxima, MIN(dt_inclu_prod) AS data_minima
+from produtos;
+
+
+Contar a quantidade total de registros existentes na tabela de produtos:
+select acount (*) AS total_registros
+from produtos;
+
+
+Selecionar todos os produtos que começam com a letra "L":
+sql
+select *
+from produtos
+where desc_prod LIKE 'L%';
+
+
+Somar todos os preços dos produtos totalizados por loja:
+select loj_prod, SUM(preco_prod) AS total_por_loja
+from produtos
+group BY loj_prod;
+
+
+Somar todos os preços dos produtos totalizados por loja que seja maior que R$100.000
+select loj_prod, SUM(preco_prod) AS total_por_loja
+from produtos
+group BY loj_prod
+having sum(preco_prod) > 100000;
+
+
+A) Montar um unico select para trazer os seguintes campos: o código da loja do produto, a descrição da loja, código do produto, a descrição do produto, o preço do produto, a quantidade em estoque do produto. Considere  que o código da loja para esta consulta seja igual a 1.
+
+selec p.loj_prod, l.desc_loj, p.cod_prod, p.desc_prod, p.preco_prod, e.qtd_prod 
+from produtos p 
+inner JOIN estoque e ON p.cod_prod = e.cod_prod AND p.loj_prod = e.loj_prod 
+inner JOIN lojas l ON p.loj_prod = l.loj_prod 
+where p.loj_prod = 1;
+
+B) Observe a estrutura da tabela de estoque e da tabela de produtos, monte um select para trazer todos os produtos que existem na tabela de produtos que não existem na tabela de estoque.
+
+select p.cod_prod, p.desc_prod
+from produtos p 
+left JOIN estoque e ON p.cod_prod = e.cod_prod AND p.loj_prod = e.loj_prod 
+where e.cod_prod IS NULL;
+
+C) Observe a estrutura da tabela de estoque e da tabela de produtos, monte um select para trazer todos os produtos que existem na tabela de estoque que não existem na tabela de produtos.
+
+select e.cod_prod, p.desc_prod
+from estoque e 
+left join produtos p ON e.cod_prod = p.cod_prod AND e.loj_prod = p.loj_prod 
+where p.cod_prod IS NULL;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
